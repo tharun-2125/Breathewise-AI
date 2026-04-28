@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 from streamlit_folium import st_folium
 from streamlit_option_menu import option_menu
 
-API_KEY = "xxxxxxx"
+API_KEY = st.secrets["ORS_API_KEY"]
 PROFILE_FILE = "profiles.csv"
 
 st.set_page_config(page_title="BreathWise AI", page_icon="🌿", layout="wide")
@@ -114,7 +114,7 @@ import requests
 
 def get_openweather_aqi(lat, lon):
 
-    API_KEY_AQI = "xxxxxxx"
+    API_KEY_AQI = st.secrets["OPENWEATHER_API_KEY"]
 
     url = "https://api.openweathermap.org/data/2.5/air_pollution"
 
