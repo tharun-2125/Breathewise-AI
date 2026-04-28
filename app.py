@@ -107,9 +107,20 @@ def get_personal_risk(aqi, health, age, mask):
     return "High"
 
 # ---------------- MAP ----------------
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+
+geolocator = Nominatim(
+    user_agent="breathewise_ai_project_2026"
+)
+
+geocode = RateLimiter(
+    geolocator.geocode,
+    min_delay_seconds=1
+)
+
 def geocode_place(place):
-    geolocator = Nominatim(user_agent="breathwise_app", timeout=10)
-    return geolocator.geocode(place)
+    return geocode(place)
 import requests
 
 def get_openweather_aqi(lat, lon):
