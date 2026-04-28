@@ -6,7 +6,7 @@ import openrouteservice
 from geopy.geocoders import Nominatim
 from streamlit_folium import st_folium
 from streamlit_option_menu import option_menu
-
+from streamlit_searchbox import st_searchbox
 API_KEY = st.secrets["ORS_API_KEY"]
 PROFILE_FILE = "profiles.csv"
 
@@ -130,7 +130,20 @@ def geocode_place(place, context="India"):
 
     return location
 import requests
+def search_locations(query):
+    if not query:
+        return []
 
+    results = geocode(
+        query + ", India",
+        exactly_one=False,
+        limit=5
+    )
+
+    if results is None:
+        return []
+
+    return [r.address for r in results]
 def get_openweather_aqi(lat, lon):
 
     API_KEY_AQI = st.secrets["OPENWEATHER_API_KEY"]
@@ -464,17 +477,20 @@ elif page == "Plan Trip":
             help="Example: Tamil Nadu India, Delhi India, Karnataka India"
         )
     
-        start_place = st.text_input(
-            "Start Location",
-            "",
-            placeholder="Example: Anna Nagar"
+        start_place = st_searchbox(
+    search_locations,
+    label="Start Location",
+    placeholder="Search valid location...",
+    key="start_location_search"
+)
+
+        end_place = st_searchbox(
+            search_locations,
+            label="Destination",
+            placeholder="Search valid destination...",
+            key="end_location_search"
         )
-    
-        end_place = st.text_input(
-            "Destination",
-            "",
-            placeholder="Example: Avadi"
-        )
+        
     
         travel_mode = st.selectbox(
             "Travel Mode",
