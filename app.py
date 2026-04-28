@@ -454,34 +454,34 @@ elif page == "Plan Trip":
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-   with col2:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("📍 Travel Details")
-
-    state_context = st.text_input(
-        "City / State / Country",
-        "India",
-        help="Example: Tamil Nadu India, Delhi India, Karnataka India"
-    )
-
-    start_place = st.text_input(
-        "Start Location",
-        "",
-        placeholder="Example: Anna Nagar"
-    )
-
-    end_place = st.text_input(
-        "Destination",
-        "",
-        placeholder="Example: Avadi"
-    )
-
-    travel_mode = st.selectbox(
-        "Travel Mode",
-        ["Car", "Bike", "Walking", "Bus", "Metro"]
-    )
-
-    st.markdown('</div>', unsafe_allow_html=True)
+       with col2:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.subheader("📍 Travel Details")
+    
+        state_context = st.text_input(
+            "City / State / Country",
+            "India",
+            help="Example: Tamil Nadu India, Delhi India, Karnataka India"
+        )
+    
+        start_place = st.text_input(
+            "Start Location",
+            "",
+            placeholder="Example: Anna Nagar"
+        )
+    
+        end_place = st.text_input(
+            "Destination",
+            "",
+            placeholder="Example: Avadi"
+        )
+    
+        travel_mode = st.selectbox(
+            "Travel Mode",
+            ["Car", "Bike", "Walking", "Bus", "Metro"]
+        )
+    
+        st.markdown('</div>', unsafe_allow_html=True)
 
     if st.button("Find Safest Route 🌿", use_container_width=True):
         with st.spinner("Generating safest route..."):
