@@ -1,6 +1,9 @@
 streamlit
 folium
 streamlit-folium
+openrouteservice
 requests
 pandas
 geopy
+streamlit-option-menu
+python-dotenv
