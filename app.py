@@ -485,7 +485,7 @@ elif page == "Plan Trip":
 
     if st.button("Find Safest Route 🌿", use_container_width=True):
         with st.spinner("Generating safest route..."):
-            result, error = create_route_map(start_place, end_place,stste_context)
+            result, error = create_route_map(start_place, end_place,state_context)
 
         st.session_state.route_result = result
         st.session_state.route_error = error
