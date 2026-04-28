@@ -7,3 +7,4 @@ pandas
 geopy
 streamlit-option-menu
 python-dotenv
+streamlit-searchbox
