@@ -119,8 +119,16 @@ geocode = RateLimiter(
     min_delay_seconds=1
 )
 
-def geocode_place(place):
-    return geocode(place)
+def geocode_place(place, context="India"):
+    location = geocode(place)
+
+    if location is None:
+        location = geocode(f"{place}, {context}")
+
+    if location is None:
+        location = geocode(f"{place}, India")
+
+    return location
 import requests
 
 def get_openweather_aqi(lat, lon):
@@ -156,9 +164,9 @@ def get_openweather_aqi(lat, lon):
         return 150
 
 @st.cache_data(show_spinner=False)
-def create_route_map(start_place, end_place):
-    start_location = geocode_place(start_place)
-    end_location = geocode_place(end_place)
+def create_route_map(start_place, end_place, context):
+    start_location = geocode_place(start_place, context)
+    end_location = geocode_place(end_place, context)
 
     if not start_location or not end_location:
         return None, "Location not found. Try clearer names like 'Anna Nagar Chennai'."
@@ -446,19 +454,38 @@ elif page == "Plan Trip":
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with col2:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.subheader("📍 Travel Details")
+   with col2:
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("📍 Travel Details")
 
-        start_place = st.text_input("Start Location", "")
-        end_place = st.text_input("Destination", "")
-        travel_mode = st.selectbox("Travel Mode", ["Car", "Bike", "Walking", "Bus", "Metro"])
+    state_context = st.text_input(
+        "City / State / Country",
+        "India",
+        help="Example: Tamil Nadu India, Delhi India, Karnataka India"
+    )
 
-        st.markdown('</div>', unsafe_allow_html=True)
+    start_place = st.text_input(
+        "Start Location",
+        "",
+        placeholder="Example: Anna Nagar"
+    )
+
+    end_place = st.text_input(
+        "Destination",
+        "",
+        placeholder="Example: Avadi"
+    )
+
+    travel_mode = st.selectbox(
+        "Travel Mode",
+        ["Car", "Bike", "Walking", "Bus", "Metro"]
+    )
+
+    st.markdown('</div>', unsafe_allow_html=True)
 
     if st.button("Find Safest Route 🌿", use_container_width=True):
         with st.spinner("Generating safest route..."):
-            result, error = create_route_map(start_place, end_place)
+            result, error = create_route_map(start_place, end_place,stste_context)
 
         st.session_state.route_result = result
         st.session_state.route_error = error
